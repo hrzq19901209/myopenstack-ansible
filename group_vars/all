@@ -2,15 +2,14 @@ path: mongodb
 logpath: mongodb/log
 
 shard_info:
-- { replSet: res1,dbpath: mongodb/res1db,port: 27019,log: mongodb/log/log.res1,mongos_port: 27023 }
-- { replSet: res2,dbpath: mongodb/res2db,port: 27020,log: mongodb/log/log.res2,mongos_port: 27023 }
-- { replSet: res3,dbpath: mongodb/res3db,port: 27021,log: mongodb/log/log.res3,mongos_port: 27023 }
+- { replSet: res1,dbpath: mongodb/res1db,port: 27019,log: mongodb/log/log.res1,mongos_port: 27022 }
+- { replSet: res2,dbpath: mongodb/res2db,port: 27020,log: mongodb/log/log.res2,mongos_port: 27022 }
 
 config_server_info:
-- { replSet: configReplSet,dbpath: mongodb/cfg,port: 27022,log: mongodb/log/log.cfg}
+- { replSet: configReplSet,dbpath: mongodb/cfg,port: 27021,log: mongodb/log/log.cfg}
 
 mongos_info:
-- { port: 27023,configRepl: configReplSet,configPort: 27022,log: mongodb/log/log.mongos}
+- { port: 27021,configRepl: configReplSet,configPort: 27021,log: mongodb/log/log.mongos}
 
 primary_host: 192.168.1.126
 
