@@ -1,0 +1,4 @@
+---
+ - hosts: ceilometer_host
+   roles:
+     - mongo_mongos_addshard

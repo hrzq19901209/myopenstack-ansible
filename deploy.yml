@@ -1,0 +1,19 @@
+---
+
+- hosts: mongodb_cluster
+  roles:
+   - mongo_prerequisites
+   - mongo_start_shard_config_server
+
+- hosts: primary_host
+  roles:
+   - mongo_set_shard_replication
+   - mongo_set_configserver_replication
+
+- hosts: mongodb_cluster
+  roles:
+   - mongo_start_mongos
+
+- hosts: primary_host
+  roles:
+   - mongo_mongos_addshard

@@ -1,0 +1,58 @@
+- name: create db script
+  template: src=createdb.j2 dest=/tmp/createdb.js
+
+- name: pause 20s
+  pause: seconds=20
+
+- name: create ceilometer database
+  shell: mongo --port {{ mongos_port }} --host {{ inventory_hostname }} /tmp/createdb.js
+
+- name: Create ceilometer service
+  keystone_service: >
+    name="{{ item.name }}"
+    type="{{ item.type }}"
+    description="{{ item.description|default('Not provided') }}"
+    publicurl="http://{{ keystone_hostname }}:8777"
+    internalurl="http://{{ keystone_hostname }}:8777"
+    adminurl="http://{{ keystone_hostname }}:8777/v1"
+    endpoint="{{ keystone_protocol }}://{{ keystone_hostname }}:{{ keystone_admin_port }}/v2.0"
+    token="{{ keystone_admin_token }}"
+    state="{{ item.state|default('present') }}"
+  with_items:
+    - { name: ceilometr, type: metering, description: "Telemetry" }
+
+- name: Create ceilometer user
+  keystone_user:
+    token={{ keystone_admin_token }}
+    endpoint="{{ keystone_protocol }}://{{ keystone_hostname }}:{{ keystone_admin_port }}/v2.0"
+    user=ceilometer tenant=service password={{ ceilometer_pass }}
+
+- name: Apply admin role to user ceilometer in project service
+  keystone_user:
+    token={{ keystone_admin_token }}
+    endpoint="{{ keystone_protocol }}://{{ keystone_hostname }}:{{ keystone_admin_port }}/v2.0"
+    role=admin user=ceilometer tenant=service
+
+- name: Install ceilometer packages
+  apt: name={{ item }} state=installed force=yes
+  with_items:
+    - ceilometer-api
+    - ceilometer-collector
+    - ceilometer-agent-central
+    - ceilometer-agent-notification
+    - ceilometer-alarm-evaluator
+    - ceilometer-alarm-notifier
+    - python-ceilometerclient
+
+- name: Create the config file
+  template: src=ceilometer.conf.j2 dest=/etc/ceilometer/ceilometer.conf
+
+- name: Restart the Telemetry
+  service: name={{ item }} state=restarted
+  with_items: 
+   - ceilometer-agent-central
+   - ceilometer-agent-notification
+   - ceilometer-api
+   - ceilometer-collector
+   - ceilometer-alarm-evaluator
+   - ceilometer-alarm-notifier
