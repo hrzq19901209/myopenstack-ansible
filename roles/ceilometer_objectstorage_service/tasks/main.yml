@@ -1,3 +1,12 @@
+- name: Add the ResellerAdmin role to the ceilometer user
+  keystone_user:
+    token={{ keystone_admin_token }}
+    endpoint="{{ keystone_protocol }}://{{ keystone_hostname }}:{{ keystone_admin_port }}/v2.0"
+    role=ResellerAdmin user=ceilometer tenant=service
+
+- name: Install the packages
+  apt: name=python-ceilometermiddleware state=installed force=yes
+
 - name: Edit the /etc/swift/proxy-server.conf file
   ini_file:
     dest: /etc/swift/proxy-server.conf

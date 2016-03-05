@@ -1,4 +1,15 @@
 ---
- - hosts: ceilometer_host
+ - hosts: controller_host
    roles:
-     - mongo_mongos_addshard
+     - ceilometer
+     - ceilometer_image_service
+     - ceilometer_cinder_service_controller
+     - ceilometer_objectstorage_service
+
+ - hosts: compute_host
+   roles:
+     - ceilometer_compute_service
+
+ - hosts: block_host
+   roles:
+     - ceilometer_cinder_service_blocknodes

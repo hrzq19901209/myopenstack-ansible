@@ -9,18 +9,20 @@ config_server_info:
 - { replSet: configReplSet,dbpath: mongodb/cfg,port: 27021,log: mongodb/log/log.cfg}
 
 mongos_info:
-- { port: 27021,configRepl: configReplSet,configPort: 27021,log: mongodb/log/log.mongos}
+- { port: 27022,configRepl: configReplSet,configPort: 27021,log: mongodb/log/log.mongos}
 
 primary_host: 192.168.1.126
 
+mongos_port_ha: 27023
+mongos_host_ha: 192.168.1.126
 
 ceilometer_db_name: ceilometer
 ceilometer_db_user: ceilometer
 ceilometer_db_user_pwd: qy_dcos
 ceilometer_pass: qydcos
 
-rabbit_host: controller1
+rabbit_hostname: controller1
 rabbit_userid: openstack
-rabbit_password: qydcos
+rabbit_pass: qydcos
 
 keystone_hostname: controller1

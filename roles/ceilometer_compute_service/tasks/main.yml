@@ -11,7 +11,7 @@
     option: "{{ item.option }}"
     value: "{{ item.value }}"
   with_items:
-    - { section: DEFAULT, option: instance_usage_audit, value: true }
+    - { section: DEFAULT, option: instance_usage_audit, value: True }
     - { section: DEFAULT, option: instance_usage_audit_period, value: hour }
     - { section: DEFAULT, option: notify_on_state_change, value: vm_and_task_state }
     - { section: DEFAULT, option: notification_driver, value: messagingv2 }

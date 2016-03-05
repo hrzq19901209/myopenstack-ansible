@@ -11,5 +11,11 @@
 27002
 27003
 
-[ceilometer_host]
+[controller_host]
+192.168.1.104
+
+[compute_host]
+192.168.1.104
+
+[black_host]
 192.168.1.104

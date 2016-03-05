@@ -1,5 +1,5 @@
 [database]
-connection = mongodb://{{ ceilometer_db_user }}:{{ ceilometer_db_user_pwd }}@{{ mongos_host  }}:{{ mongos_port }}/{{ ceilometer_db_name }}
+connection = mongodb://{{ ceilometer_db_user }}:{{ ceilometer_db_user_pwd }}@{{ mongos_host_ha  }}:{{ mongos_port_ha }}/{{ ceilometer_db_name }}
 
 [DEFAULT]
 rpc_backend = rabbit
